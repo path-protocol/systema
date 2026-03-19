@@ -13,7 +13,13 @@
             <div class="header">SYSTEM STATUS</div>
             <div class="stat-row">RANK: <span id="rank-val" class="neon-text">E</span></div>
             <div class="stat-row">JOB: <span id="job-val">UNEMPLOYED</span></div>
-            <div class="stat-row">STAMINA: <div class="bar-bg"><div id="stamina-bar" class="bar-fill"></div></div></div>
+            <div class="stat-row">STAMINA: 
+                <div class="bar-bg">
+                    <div id="stamina-bar" class="bar-fill"></div>
+                </div>
+            </div>
+            <div class="stat-row">CREDITS: <span id="credits-val" class="neon-text">0</span></div>
+            <div class="stat-row">DAY: <span id="day-val">1</span></div>
         </div>
 
         <div id="system-notif" class="hidden">
@@ -21,18 +27,43 @@
         </div>
 
         <div id="action-prompt" class="hidden">
-            TAP TO <span id="action-text">INTERACT</span>
+            [E] <span id="action-text">INTERACT</span>
         </div>
     </div>
 
     <div id="canvas-container">
         <canvas id="gameCanvas"></canvas>
+
+        <div id="minigame-ui" class="system-box hidden">
+            <div class="header" id="mg-title">[ SYSTEM INTERFACE ]</div>
+            <div class="terminal-body">
+                <p id="mg-task">INPUT REQUIRED STRING:</p>
+                <div id="mg-target" class="neon-text">INITIALIZING...</div>
+                <input type="text" id="mg-input" autocomplete="off" spellcheck="false">
+                <div class="stat-row">SYSTEM STABILITY: <span id="mg-timer">10.0</span>s</div>
+            </div>
+            <div class="scanlines-sub"></div>
+        </div>
+
+        <div id="rank-up-overlay" class="hidden">
+            <div class="rank-card">
+                <h1 class="neon-text">RANK INCREASED</h1>
+                <div id="new-rank-display">D</div>
+                <p>New Capabilities Unlocked</p>
+                <button onclick="document.getElementById('rank-up-overlay').classList.add('hidden')">ACKNOWLEDGE</button>
+            </div>
+        </div>
     </div>
 
     <div class="scanlines"></div>
 
-    <script src="player.js"></script>
+    <script src="audio.js"></script>
+    
     <script src="world.js"></script>
+    <script src="player.js"></script>
+    
+    <script src="system.js"></script>
+    
     <script src="main.js"></script>
 
 </body>
