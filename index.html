@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SYSTEMA | Career RPG</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="ui-layer">
+        <div class="system-box status-window">
+            <div class="header">SYSTEM STATUS</div>
+            <div class="stat-row">RANK: <span id="rank-val" class="neon-text">E</span></div>
+            <div class="stat-row">JOB: <span id="job-val">UNEMPLOYED</span></div>
+            <div class="stat-row">STAMINA: <div class="bar-bg"><div id="stamina-bar" class="bar-fill"></div></div></div>
+        </div>
+
+        <div id="system-notif" class="hidden">
+            [ NEW QUEST: CRAFT A RESUME ]
+        </div>
+
+        <div id="action-prompt" class="hidden">
+            TAP TO <span id="action-text">INTERACT</span>
+        </div>
+    </div>
+
+    <div id="canvas-container">
+        <canvas id="gameCanvas"></canvas>
+    </div>
+
+    <div class="scanlines"></div>
+
+    <script src="player.js"></script>
+    <script src="world.js"></script>
+    <script src="main.js"></script>
+
+</body>
+</html>
