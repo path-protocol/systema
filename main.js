@@ -37,7 +37,8 @@ function init() {
 
     // Initialize World/Map (from world.js)
     if (typeof World !== 'undefined') {
-        World.loadMap(gameState.currentMap);
+        // world.js handles loading data.json internally via init()
+        World.init(); 
     }
 
     console.log("SYSTEM INITIALIZED: [Rank E Protocol Active]");
@@ -51,9 +52,6 @@ function init() {
  * @param {number} timestamp - Provided by requestAnimationFrame
  */
 function gameLoop(timestamp) {
-    if (gameState.isPaused) return;
-
-    // Calculate Delta Time (for consistent speed across devices)
     const deltaTime = timestamp - gameState.lastTime;
     gameState.lastTime = timestamp;
 
@@ -88,7 +86,7 @@ function render() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Draw the World Map
-    if (typeof World !== 'undefined') {
+    if (typeof World !== 'undefined' && World.isLoaded) {
         World.draw(ctx);
     }
 
@@ -102,28 +100,44 @@ function render() {
  * Logic for moving between Home and Office
  */
 function checkTransitions() {
-    // If player touches the bottom gap in the Home map
+    // If player walks through the bottom door in Home (Based on your data.json grid)
     if (gameState.currentMap === 'home' && Player.y > 170) {
         gameState.currentMap = 'office_rank_e';
         World.loadMap('office_rank_e');
-        Player.y = 10; // Spawn at top of new map
-        AudioEngine.playNotif();
+        Player.y = 20; // Spawn at top of the office
+        if (typeof AudioEngine !== 'undefined') AudioEngine.playNotif();
+    } 
+    // If player walks through the top door in Office
+    else if (gameState.currentMap === 'office_rank_e' && Player.y < 5) {
+        gameState.currentMap = 'home';
+        World.loadMap('home');
+        Player.y = 160; // Spawn at bottom of home
+        if (typeof AudioEngine !== 'undefined') AudioEngine.playNotif();
     }
 }
-
-// Add Audio Unlocker to the bottom of main.js
-window.addEventListener('keydown', () => AudioEngine.init(), { once: true });
-window.addEventListener('touchstart', () => AudioEngine.init(), { once: true });
 
 /**
  * Global UI Update Helper
  * Use this to change the System HUD from anywhere in the code
  */
-function updateSystemHUD(rank, job, staminaPercent) {
-    document.getElementById('rank-val').innerText = rank;
-    document.getElementById('job-val').innerText = job;
-    document.getElementById('stamina-bar').style.width = staminaPercent + "%";
+function updateSystemHUD(rank, job, staminaWidth) {
+    const rankEl = document.getElementById('rank-val');
+    const jobEl = document.getElementById('job-val');
+    const staminaEl = document.getElementById('stamina-bar');
+
+    if (rankEl) rankEl.innerText = rank;
+    if (jobEl) jobEl.innerText = job;
+    if (staminaEl) staminaEl.style.width = staminaWidth + "%";
 }
 
+// Audio Unlock: Browsers block sound until a key is pressed or screen is tapped
+window.addEventListener('keydown', () => {
+    if (typeof AudioEngine !== 'undefined') AudioEngine.init();
+}, { once: true });
+
+window.addEventListener('touchstart', () => {
+    if (typeof AudioEngine !== 'undefined') AudioEngine.init();
+}, { once: true });
+
 // Boot the System
-window.onload = init;
+init();
