@@ -2,7 +2,16 @@
   "system_config": {
     "version": "1.0.0",
     "codename": "SYSTEMA_PROTOCOL",
-    "difficulty_modifier": 1.0
+    "difficulty_modifier": 1.0,
+    "starting_map": "home"
+  },
+  "rank_requirements": {
+    "E": { "logic": 0, "charisma": 0, "salary": 1500, "title": "The Struggler" },
+    "D": { "logic": 15, "charisma": 10, "salary": 3000, "title": "The Associate" },
+    "C": { "logic": 40, "charisma": 30, "salary": 6000, "title": "The Specialist" },
+    "B": { "logic": 75, "charisma": 60, "salary": 12000, "title": "The Manager" },
+    "A": { "logic": 150, "charisma": 120, "salary": 25000, "title": "The Director" },
+    "S": { "logic": 500, "charisma": 500, "salary": 99999, "title": "The Architect" }
   },
   "maps": {
     "home": {
@@ -20,15 +29,15 @@
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1]
+        [1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1]
       ],
-      "collision_ids": [1, 2, 3]
+      "npcs": []
     },
     "office_rank_e": {
       "id": "MAP_OFFICE_E",
       "name": "The Open Floor Plan",
       "grid": [
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1],
         [1,0,0,2,0,2,0,2,0,2,0,0,0,0,0,0,0,0,0,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
         [1,0,0,2,0,2,0,2,0,2,0,0,0,0,0,0,0,0,0,1],
@@ -39,39 +48,18 @@
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1]
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+      ],
+      "npcs": [
+        { "name": "Manager Kim", "type": "boss", "tx": 5, "ty": 1, "spriteX": 1, "dialogue": ["Why are you standing around?", "Get back to the coding terminal!"] }
       ]
     }
   },
-  "careers": {
-    "RANK_E": {
-      "title": "Junior Associate",
-      "requirement_logic": 10,
-      "stamina_cost": 20,
-      "daily_salary": 100
-    },
-    "RANK_C": {
-      "title": "Systems Lead",
-      "requirement_logic": 50,
-      "requirement_charisma": 30,
-      "stamina_cost": 40,
-      "daily_salary": 500
-    },
-    "RANK_S": {
-      "title": "Protocol CEO",
-      "requirement_logic": 150,
-      "requirement_charisma": 150,
-      "stamina_cost": 100,
-      "daily_salary": 5000
-    }
-  },
-  "quests": [
-    {
-      "id": "Q001",
-      "name": "The First Protocol",
-      "description": "Craft a resume at your home desk.",
-      "reward_xp": 10,
-      "required_logic": 5
-    }
-  ]
+  "tile_types": {
+    "0": { "name": "floor", "solid": false },
+    "1": { "name": "wall", "solid": true },
+    "2": { "name": "laptop", "solid": true, "interaction": "minigame_logic" },
+    "3": { "name": "bed", "solid": true, "interaction": "rest_and_save" },
+    "4": { "name": "sidewalk", "solid": false }
+  }
 }
