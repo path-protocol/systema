@@ -138,42 +138,41 @@ const Player = {
      */
     draw(ctx) {
         if (World.isLoaded) {
-            // Mapping to Rank E character (First row in your spritesheet)
-            const spriteSize = 48; // Your character sprites are 48px tall in the sheet
+            // Character is at the top left of your sheet. 
+            // Frame width: 32px, Frame height: 48px
             ctx.drawImage(
                 World.tileSheet,
                 this.frameX * 32, this.frameY * 48, 32, 48, 
-                Math.floor(this.x), Math.floor(this.y - 16), 32, 48
+                Math.floor(this.x - 8), Math.floor(this.y - 24), 32, 48
             );
             this.checkInteraction();
+        } else {
+            ctx.fillStyle = "#00f2ff";
+            ctx.fillRect(this.x, this.y, this.width, this.height);
         }
-    },
+    }, // <-- This comma was missing
 
     checkInteraction() {
-        // Logic to detect if a "Laptop" (ID 2) is nearby
         const prompt = document.getElementById('action-prompt');
-        const isNearLaptop = World.isSolid(this.x, this.y - 10) && World.currentMap.grid[Math.floor((this.y-10)/16)][Math.floor(this.x/16)] === 2;
+        // Check 10px above the player for a Laptop (ID 2) [cite: 2]
+        const checkY = Math.floor((this.y - 10) / 16);
+        const checkX = Math.floor((this.x + 8) / 16);
+        
+        const isNearLaptop = World.currentMap && 
+                             World.currentMap.grid[checkY] && 
+                             World.currentMap.grid[checkY][checkX] === 2;
         
         if (isNearLaptop) {
             prompt.classList.remove('hidden');
             if (this.keys['KeyE']) {
-                AudioEngine.playNotif();
-                console.log("SYSTEM: Initializing Resume Mini-game...");
+                if (typeof AudioEngine !== 'undefined') AudioEngine.playNotif();
+                console.log("SYSTEM: [Resume Protocol Initiated]");
             }
         } else {
             prompt.classList.add('hidden');
         }
-    }
-        } else {
-            // Placeholder while loading
-            ctx.fillStyle = "#00f2ff";
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-        }
     },
 
-    /**
-     * Push Stats to the HTML/CSS System HUD
-     */
     updateUI() {
         const staminaPercent = Math.max(0, (this.stamina / this.maxStamina) * 100);
         if (typeof updateSystemHUD === 'function') {
