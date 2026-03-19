@@ -93,11 +93,11 @@ const World = {
         let sx = 0, sy = 0;
 
         switch(id) {
-            case 0: sx = 0; sy = 128; break;   // Floor (Home/Office)
-            case 1: sx = 64; sy = 128; break;  // Wall Tiles
-            case 2: sx = 32; sy = 192; break;  // Laptop/Office Desk
-            case 3: sx = 0; sy = 192; break;   // Bed
-            case 4: sx = 128; sy = 128; break; // Sidewalk
+            case 0: sx = 16; sy = 240; break;  // Interior Floor
+            case 1: sx = 16; sy = 208; break;  // Dark Wall
+            case 2: sx = 256; sy = 832; break; // Office Desk/Laptop
+            case 3: sx = 16; sy = 800; break;  // Bed
+            case 4: sx = 656; sy = 240; break; // Sidewalk/Concrete
         }
 
         ctx.drawImage(

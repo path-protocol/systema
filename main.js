@@ -102,9 +102,18 @@ function render() {
  * Logic for moving between Home and Office
  */
 function checkTransitions() {
-    // Example: If player is at edge of home map, load 'office'
-    // This will be expanded once world.js is populated
+    // If player touches the bottom gap in the Home map
+    if (gameState.currentMap === 'home' && Player.y > 170) {
+        gameState.currentMap = 'office_rank_e';
+        World.loadMap('office_rank_e');
+        Player.y = 10; // Spawn at top of new map
+        AudioEngine.playNotif();
+    }
 }
+
+// Add Audio Unlocker to the bottom of main.js
+window.addEventListener('keydown', () => AudioEngine.init(), { once: true });
+window.addEventListener('touchstart', () => AudioEngine.init(), { once: true });
 
 /**
  * Global UI Update Helper

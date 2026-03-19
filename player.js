@@ -138,13 +138,32 @@ const Player = {
      */
     draw(ctx) {
         if (World.isLoaded) {
-            // Draw from system_sprites.png
-            // Note: sx/sy depend on where your player sits on the sheet
+            // Mapping to Rank E character (First row in your spritesheet)
+            const spriteSize = 48; // Your character sprites are 48px tall in the sheet
             ctx.drawImage(
                 World.tileSheet,
-                this.frameX * 16, this.frameY * 16, 16, 16, // Source
-                Math.floor(this.x), Math.floor(this.y), 16, 16 // Destination
+                this.frameX * 32, this.frameY * 48, 32, 48, 
+                Math.floor(this.x), Math.floor(this.y - 16), 32, 48
             );
+            this.checkInteraction();
+        }
+    },
+
+    checkInteraction() {
+        // Logic to detect if a "Laptop" (ID 2) is nearby
+        const prompt = document.getElementById('action-prompt');
+        const isNearLaptop = World.isSolid(this.x, this.y - 10) && World.currentMap.grid[Math.floor((this.y-10)/16)][Math.floor(this.x/16)] === 2;
+        
+        if (isNearLaptop) {
+            prompt.classList.remove('hidden');
+            if (this.keys['KeyE']) {
+                AudioEngine.playNotif();
+                console.log("SYSTEM: Initializing Resume Mini-game...");
+            }
+        } else {
+            prompt.classList.add('hidden');
+        }
+    }
         } else {
             // Placeholder while loading
             ctx.fillStyle = "#00f2ff";
